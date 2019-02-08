@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 const ideaHandler = require('./idea');
 const infoHandler = require('./info');
 const scoreHandler = require('./score');
+const adviceHandler = require('./advice');
 
 const client = new Discord.Client();
 
@@ -43,6 +44,9 @@ client.on('message', (msg) => {
         break;
       case '!downvote':
         scoreHandler(database, msg, message, -1);
+        break;
+      case '!advice':
+        adviceHandler(database, msg);
         break;
       default:
         break;

@@ -1,16 +1,16 @@
 const infoHandler = (database, msg, message) => {
   if (message.length > 1) {
     const key = message[1];
-    console.log(key);
     const ref = database.ref(process.env.FIREBASEKEY);
-    try {
-      const idea = ref.child('all').child(key);
-      const value = idea.val();
-      console.log(idea);
-      msg.reply(`@${value.author || 'anonymous'} suggested "${value.idea}"`);
-    } catch (err) {
-      msg.reply('I can\'t find that one :(');
-    }
+    const idea = ref.child('all').child(key);
+    idea.transaction((value) => {
+      if (value) {
+        const temp = value.val();
+        msg.reply(`@${temp.author || 'anonymous'} suggested "${temp.idea}"`);
+      } else {
+        msg.reply('I couldn\'t find that one :(');
+      }
+    });
   }
 };
 
