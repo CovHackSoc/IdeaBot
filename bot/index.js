@@ -1,8 +1,13 @@
 /* eslint no-console: 0 */
 const Discord = require('discord.js');
 const admin = require('firebase-admin');
-const shlex = require('shlex');
+// const shlex = require('shlex');
 const dotenv = require('dotenv');
+
+/* Import our handlers */
+const ideaHandler = require('./idea');
+const infoHandler = require('./info');
+const scoreHandler = require('./score');
 
 const client = new Discord.Client();
 
@@ -23,20 +28,24 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
   try {
-    const { content, author } = msg;
-    const message = shlex.split(content);
-    if (message[0] === '!idea') {
-      /* Process here */
-      console.log(message);
-      if (message.length > 1) {
-        const ref = database.ref(process.env.FIREBASEKEY);
-        const idea = ref.child('all').push({
-          idea: message.slice(1).join(' '),
-          author: author.username,
-        });
-        const id = idea.key;
-        msg.reply(`Added! Check it out at: ${process.env.HOST}#${id}`);
-      }
+    const { content } = msg;
+    if (content[0] !== '!') return;
+    const message = content.split(' ');
+    switch (message[0]) {
+      case '!idea':
+        ideaHandler(database, msg, message);
+        break;
+      case '!info':
+        infoHandler(database, msg, message);
+        break;
+      case '!upvote':
+        scoreHandler(database, msg, message, 1);
+        break;
+      case '!downvote':
+        scoreHandler(database, msg, message, -1);
+        break;
+      default:
+        break;
     }
   } catch (err) {
     console.log(err);
