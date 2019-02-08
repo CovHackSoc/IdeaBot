@@ -9,6 +9,7 @@ const ideaHandler = require('./idea');
 const infoHandler = require('./info');
 const scoreHandler = require('./score');
 const adviceHandler = require('./advice');
+const shibeHandler = require('./shibe');
 
 const client = new Discord.Client();
 
@@ -47,6 +48,9 @@ client.on('message', (msg) => {
         break;
       case '!advice':
         adviceHandler(database, msg);
+        break;
+      case '!shibe':
+        shibeHandler(database, msg);
         break;
       default:
         break;
