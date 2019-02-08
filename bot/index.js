@@ -10,6 +10,7 @@ const infoHandler = require('./info');
 const scoreHandler = require('./score');
 const adviceHandler = require('./advice');
 const shibeHandler = require('./shibe');
+const catHandler = require('./cat');
 
 const client = new Discord.Client();
 
@@ -51,6 +52,9 @@ client.on('message', (msg) => {
         break;
       case '!shibe':
         shibeHandler(database, msg);
+        break;
+      case '!cat':
+        catHandler(database, msg);
         break;
       default:
         break;
