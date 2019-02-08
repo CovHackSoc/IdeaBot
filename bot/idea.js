@@ -1,3 +1,5 @@
+const firebase = require('firebase');
+
 const ideaHandler = (database, msg, message) => {
   const { author } = msg;
   if (message.length > 1) {
@@ -6,6 +8,7 @@ const ideaHandler = (database, msg, message) => {
       idea: message.slice(1).join(' '),
       author: author.username,
       score: 0,
+      date: firebase.database.ServerValue.TIMESTAMP,
     });
     const id = idea.key;
     msg.reply(`Added! Check it out at: ${process.env.HOST}/${id}`);
