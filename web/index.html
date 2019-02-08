@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+
+        <script>
+            const setup = () => {
+                
+                const config = {
+                    apiKey: "AIzaSyAodcIWqop_j5vHN6CpNxhP8V-n1vHN4xc",
+                    databaseURL: "https://hackathonideas-6e61d.firebaseio.com/",
+                };
+                firebase.initializeApp(config);
+
+                const table = document.getElementById("idea_table");
+
+                const appendTable = (rowId, value) => {
+                    const row = table.insertRow(-1);
+                    const id = row.insertCell(0);
+                    const author = row.insertCell(1);
+                    const idea = row.insertCell(2);
+
+                    id.innerHTML = rowId;
+                    author.innerHTML = value.author || "anonymous";
+                    idea.innerHTML = value.idea;
+                };
+
+                const updateTable = (rowId, value) => {
+
+                };
+
+                const removeTable = (rowId) => {
+
+                };
+
+                // Get a reference to the database service
+                const database = firebase.database();
+                const ideasRef = database.ref('ideas').child('all');
+
+
+                ideasRef.on('child_added', function(data) {
+                    appendTable(data.key, data.val());
+                });
+
+                ideasRef.on('child_changed', function(data) {
+                    updateTable(data.key, data.val().text);
+                });
+
+                ideasRef.on('child_removed', function(data) {
+                    removeTable(data.key);
+                });
+            };
+        </script>
+    </head>
+    <body onload="setup()">
+        <h1>Ideas</h1>
+        <table id="idea_table">
+            <tr>
+                <th>ID</th>
+                <th>Author</th>
+                <th>Idea</th>
+            </tr>
+        </table>
+    </body>
+</html>
