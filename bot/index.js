@@ -16,7 +16,7 @@ const client = new Discord.Client();
 
 dotenv.config();
 
-const serviceAccount = require('../secrets/serviceAccountKey.json');
+const serviceAccount = require(process.env.KEYPATH);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

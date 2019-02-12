@@ -4,6 +4,7 @@
   "description": "This is used to track ideas for Hackathons.",
   "main": "index.js",
   "scripts": {
+    "start": "node bot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
