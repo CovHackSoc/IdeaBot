@@ -1,14 +1,14 @@
 /* eslint no-console: 0 */
 const axios = require('axios');
 
-const shibeHandler = (database, msg) => {
+const shibeHandler = (meta) => {
   axios.get('http://shibe.online/api/shibes').then(
     (response) => {
-      msg.reply(response.data[0]);
+      meta.reply(response.data[0]);
     },
   ).catch((error) => {
     console.log(error);
-    msg.reply('error :(');
+    meta.reply('error :(');
   }).then(() => {
   });
 };
